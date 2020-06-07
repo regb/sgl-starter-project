@@ -1,0 +1,7 @@
+target
+.history
+*.swp
+*.swo
+.metals/
+.bloop/
+project/metals.sbt
