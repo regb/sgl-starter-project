@@ -35,6 +35,11 @@ tag loading the compiled game. Here's [an example](html5/index.html).
 
 ## Where to go from there
 
+You can read [the tutorial explaining the starter project
+step-by-step](https://regblanc.com/blog/cross-platform-game-development-in-scala-natively/).
+It provides insights on how SGL works and the follow-up articles
+show how to use more advanced features of SGL.
+
 You can play around with the game code in
 [ScalavatorGame.scala](core/src/main/scala/ScalavatorGame.scala) using the
 ScalaDoc of SGL to figure out the API (it should have been published locally as
