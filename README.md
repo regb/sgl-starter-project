@@ -31,14 +31,14 @@ And you can compile it to Javascript and run it in the browser with:
     sbt html5/fastOptJS
 
 All you need to run it is a `<canvas id="scalavator_canvas">` tag and a script
-tag loading the compiled game. An example is
-[html5/index.html](html5/index.html).
+tag loading the compiled game. Here's [an example](html5/index.html).
 
 ## Where to go from there
 
-You can play around with the game code in core/src/main/scala/ScalavatorGame.scala using
-the ScalaDoc of SGL to figure out the API (it should have been published locally as well).
-Just edit the code, and run `sbt desktop/run` to see the result.
+You can play around with the game code in
+[ScalavatorGame.scala](core/src/main/scala/ScalavatorGame.scala) using the
+ScalaDoc of SGL to figure out the API (it should have been published locally as
+well). Just edit the code, and run `sbt desktop/run` to see the result.
 
 You can take a look at the [Scalavator
 game](https://github.com/regb/scalavator) which is one possible evolution from
