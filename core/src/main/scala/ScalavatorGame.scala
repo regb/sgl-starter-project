@@ -17,6 +17,7 @@ trait ScalavatorGame {
     private val CharacterWidth = 32
     private val CharacterHeight = 64
     private val Gravity = Vec(0, 430)
+    private val JumpImpulsion = Vec(0, -320)
 
     private var characterPosition =
       Point(Window.width/2 - CharacterWidth/2, Window.height)
@@ -24,16 +25,17 @@ trait ScalavatorGame {
 
     def handleInput(ev: Input.InputEvent): Unit = ev match {
       case Input.TouchUpEvent(_, _, _) | Input.MouseUpEvent(_, _, Input.MouseButtons.Left) =>
-      	characterVelocity = Vec(0, -320)
+      	characterVelocity = JumpImpulsion
       case _ => ()
     }
     Input.setEventProcessor(handleInput)
 
     override def update(dt: Long): Unit = {
-      characterPosition += characterVelocity*(dt/1000f)
       characterVelocity += Gravity*(dt/1000f)
-      if(characterPosition.y.toInt - Window.height > 0) {
+      characterPosition += characterVelocity*(dt/1000f)
+      if(characterPosition.y - Window.height > 0) {
         characterVelocity = Vec(0, 0)
+        characterPosition = characterPosition.withY(Window.height)
       }
     }
 
