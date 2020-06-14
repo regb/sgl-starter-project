@@ -5,20 +5,22 @@ import sgl._
 import sgl.geometry._
 
 trait ScalavatorGame {
-  this: GraphicsProvider with InputProvider with WindowProvider with SystemProvider
+  this: GraphicsProvider
+  with InputProvider
+  with WindowProvider
+  with SystemProvider
   with GameStateComponent =>
 
   class MainScreen extends GameScreen {
     override val name: String = "main-screen"
 
-    private val characterWidth = 32
-    private val characterHeight = 64
+    private val CharacterWidth = 32
+    private val CharacterHeight = 64
+    private val Gravity = Vec(0, 430)
 
     private var characterPosition =
-      Point(Window.width/2 - characterWidth/2, Window.height)
+      Point(Window.width/2 - CharacterWidth/2, Window.height)
     private var characterVelocity = Vec(0, 0)
-
-    private val Gravity = Vec(0, 430)
 
     def handleInput(ev: Input.InputEvent): Unit = ev match {
       case Input.TouchUpEvent(_, _, _) | Input.MouseUpEvent(_, _, Input.MouseButtons.Left) =>
@@ -37,7 +39,7 @@ trait ScalavatorGame {
 
     override def render(canvas: Graphics.Canvas): Unit = {
       canvas.drawColor(Graphics.Color.White)
-      canvas.drawRect(characterPosition.x, characterPosition.y - characterHeight, characterWidth, characterHeight, Graphics.defaultPaint.withColor(Graphics.Color.Green))
+      canvas.drawRect(characterPosition.x, characterPosition.y - CharacterHeight, CharacterWidth, CharacterHeight, Graphics.defaultPaint.withColor(Graphics.Color.Green))
     }
   }
 
