@@ -1,51 +1,50 @@
-# Starter Project for SGL
+# SGL starter project
 
-This is a sample project for getting started with [the Scala Game
-Library (SGL)](https://github.com/regb/scala-game-library), a cross-platform
-game engine for the Scala programming language.
+A template for making a game with [SGL](https://libsgl.com), the Scala Game
+Library. It contains a small but complete game, **Coin Dash** (move with the
+arrow keys, collect the coins), written with SGL's GameObject engine, and
+targets for the desktop, the browser, and a native executable, plus a test
+that runs the game without a display.
 
-## How to run
+## Use this template
 
-To use it, you will need SBT, git, a working Scala Native setup (install
-required software [from the official
-documentation](https://scala-native.readthedocs.io/en/v0.3.9-docs/user/setup.html#installing-clang-and-runtime-dependencies).
+Click **Use this template** on GitHub, or:
 
-Then you need to compile and publish SGL locally:
+```bash
+gh repo create my-game --template regb/sgl-starter-project --clone
+cd my-game
+```
 
-    git clone git@github.com:regb/scala-game-library.git
-    cd scala-game-library
-    sbt publishLocal
+Or ask a coding agent: *"Make a game with SGL: follow https://libsgl.com/start.md"*.
+Agents read [AGENTS.md](AGENTS.md).
 
-Once SGL is published locally, you should be able to play with the starter project.
-Go to the root directory (of this repository, not the scala-game-library). And
-run:
+## Run
 
-    sbt desktop/run
+You need [Bazelisk](https://github.com/bazelbuild/bazelisk) (installed as
+`bazel`). Bazel downloads the JDK, Scala, and SGL itself; the first build takes
+a few minutes.
 
-This will start the sample app running on the JVM. You can run it natively with:
+```bash
+bazel run //:desktop     # desktop window
+bazel run //:web         # browser: open http://localhost:8080
+bazel run //:native      # Scala Native; needs clang, SDL2, SDL2_image, OpenGL ES
+bazel test //...         # headless test (Linux, Mesa)
+bazel build //...        # build everything (except native)
+```
 
-    sbt native/run
+## Layout
 
-And you can compile it to Javascript and run it in the browser with:
+- `game/Game.scala`: the game.
+- `test/GameTest.scala`: plays the game on the headless OpenGL backend.
+- `BUILD.bazel`: the targets. `MODULE.bazel`: dependencies, including the SGL
+  commit this project is pinned to.
 
-    sbt html5/fastOptJS
+## Learn more
 
-All you need to run it is a `<canvas id="scalavator_canvas">` tag and a script
-tag loading the compiled game. Here's [an example](html5/index.html).
+- Documentation: https://libsgl.com/docs/
+- The GameObject engine: https://libsgl.com/docs/gameobject/
+- SGL source and examples: https://github.com/regb/scala-game-library
 
-## Where to go from there
+## License
 
-You can read [the tutorial explaining the starter project
-step-by-step](https://regblanc.com/blog/cross-platform-game-development-in-scala-natively/).
-It provides insights on how SGL works and the follow-up articles
-show how to use more advanced features of SGL.
-
-You can play around with the game code in
-[ScalavatorGame.scala](core/src/main/scala/ScalavatorGame.scala) using the
-ScalaDoc of SGL to figure out the API (it should have been published locally as
-well). Just edit the code, and run `sbt desktop/run` to see the result.
-
-You can take a look at the [Scalavator
-game](https://github.com/regb/scalavator) which is one possible evolution from
-this starter project into a complete game with graphics, that runs on multiple
-platforms.
+MIT, see [LICENSE](LICENSE). Replace it with your own license if you like.

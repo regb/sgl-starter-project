@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bazel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      # Mesa for the headless OpenGL test; SDL2 and clang for the native target.
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang libegl1-mesa-dev libgl1-mesa-dri libglu1-mesa-dev libsdl2-dev libsdl2-image-dev
+
+      - name: Build
+        run: bazel build //...
+
+      - name: Build native
+        run: bazel build //:native
+
+      - name: Test
+        run: bazel test //...
+
+      - name: Upload test outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-outputs
+          path: bazel-testlogs/game_test/test.outputs/
+          if-no-files-found: ignore

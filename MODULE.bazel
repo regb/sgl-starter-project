@@ -1,0 +1,26 @@
+module(name = "sgl_starter")
+
+# SGL is not on the Bazel Central Registry yet: pin a commit of
+# https://github.com/regb/scala-game-library. To upgrade, change `commit`.
+bazel_dep(name = "sgl.bzl", version = "0.0.0", repo_name = "sgl")
+git_override(
+    module_name = "sgl.bzl",
+    commit = "ffbd0d070961475fb1aa9039b98e9a76d53d06e0",
+    remote = "https://github.com/regb/scala-game-library.git",
+)
+
+# rules_scala reads the Scala version only from the root module, so it is
+# repeated here. It must match the version SGL is built with.
+bazel_dep(name = "rules_scala", version = "7.2.6")
+bazel_dep(name = "platforms", version = "1.1.0")
+
+# Only for the prebuilt protoc flag in .bazelrc.
+bazel_dep(name = "protobuf", version = "33.4")
+
+scala_config = use_extension("@rules_scala//scala/extensions:config.bzl", "scala_config")
+scala_config.settings(scala_version = "3.3.8")
+
+# Toolchains for scala_test (ScalaTest).
+scala_deps = use_extension("@rules_scala//scala/extensions:deps.bzl", "scala_deps")
+scala_deps.scala()
+scala_deps.scalatest()

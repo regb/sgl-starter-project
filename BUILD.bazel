@@ -1,0 +1,80 @@
+load("@rules_scala//scala:scala.bzl", "scala_test")
+load(
+    "@sgl//bazel/sgl:defs.bzl",
+    "sgl_core_library",
+    "sgl_desktop_lwjgl_app",
+    "sgl_desktop_native_app",
+    "sgl_html5_opengl_app",
+)
+
+# The game itself: portable Scala code, shared by every target below.
+sgl_core_library(
+    name = "core",
+    srcs = glob(["game/**/*.scala"]),
+    deps = ["@sgl//engines:sgl-gameobject"],
+)
+
+# Desktop window (JVM, LWJGL/OpenGL). `bazel run //:desktop`
+sgl_desktop_lwjgl_app(
+    name = "desktop",
+    core_abstract_class = "mygame.Game",
+    frame_height = 600,
+    frame_width = 800,
+    main_class = "Main",
+    package = "mygame",
+    window_title = "Coin Dash",
+    deps = [":core"],
+)
+
+# Browser (Scala.js, WebGL 2). `bazel run //:web`, then open http://localhost:8080
+sgl_html5_opengl_app(
+    name = "web",
+    canvas_height = 600,
+    canvas_width = 800,
+    core_abstract_class = "mygame.Game",
+    export_name = "CoinDash",
+    main_class = "Main",
+    package = "mygame",
+    deps = [":core"],
+)
+
+# Native executable (Scala Native, SDL2, OpenGL ES). `bazel run //:native`
+# Needs clang, SDL2, SDL2_image, and OpenGL ES/EGL development libraries.
+sgl_desktop_native_app(
+    name = "native",
+    backend_app = "NativeOpenGLApp",
+    core_abstract_class = "mygame.Game",
+    frame_height = 600,
+    frame_width = 800,
+    linkopts = [
+        "-lSDL2",
+        "-lSDL2_image",
+        "-lGLESv2",
+    ],
+    main_class = "Main",
+    package = "mygame",
+    use_screen2d = False,
+    deps = [":core"],
+)
+
+# Runs the game on the headless OpenGL backend (Mesa software rendering, no
+# display needed). `bazel test //:game_test`
+scala_test(
+    name = "game_test",
+    size = "small",
+    srcs = glob(["test/**/*.scala"]),
+    env = {
+        "DISPLAY": "",
+        "EGL_PLATFORM": "surfaceless",
+        "LIBGL_ALWAYS_SOFTWARE": "1",
+        "WAYLAND_DISPLAY": "",
+    },
+    target_compatible_with = ["@platforms//os:linux"],
+    deps = [
+        ":core",
+        "@sgl//backends/desktop-jvm-shared",
+        "@sgl//backends/headless-opengl:sgl-headless-opengl",
+        "@sgl//core:sgl-core",
+        "@sgl//engines:sgl-gameobject",
+    ],
+)

@@ -1,7 +1,3 @@
-target
-.history
+/bazel-*
+.DS_Store
 *.swp
-*.swo
-.metals/
-.bloop/
-project/metals.sbt
