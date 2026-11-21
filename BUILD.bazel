@@ -47,6 +47,8 @@ sgl_desktop_native_app(
     frame_height = 600,
     frame_width = 800,
     linkopts = [
+        # SGL runs the native link without PATH; tell clang where `ld` is.
+        "-B/usr/bin",
         "-lSDL2",
         "-lSDL2_image",
         "-lGLESv2",
