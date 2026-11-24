@@ -35,6 +35,7 @@ sgl_html5_opengl_app(
     export_name = "CoinDash",
     main_class = "Main",
     package = "mygame",
+    page_title = "Coin Dash",
     deps = [":core"],
 )
 
@@ -47,8 +48,6 @@ sgl_desktop_native_app(
     frame_height = 600,
     frame_width = 800,
     linkopts = [
-        # SGL runs the native link without PATH; tell clang where `ld` is.
-        "-B/usr/bin",
         "-lSDL2",
         "-lSDL2_image",
         "-lGLESv2",
@@ -56,6 +55,7 @@ sgl_desktop_native_app(
     main_class = "Main",
     package = "mygame",
     use_screen2d = False,
+    window_title = "Coin Dash",
     deps = [":core"],
 )
 

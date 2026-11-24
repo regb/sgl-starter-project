@@ -9,8 +9,3 @@ build --worker_sandboxing
 
 # Print the log of failing tests.
 test --test_output=errors
-
-# `bazel run //:web` starts SGL's dev server from a path outside its runfiles.
-# With a disk or remote cache, Bazel would not download that binary from the
-# cache, and the run fails with "server: No such file or directory".
-run --remote_download_regex=.*/bazel/scalajs/server_/server$
