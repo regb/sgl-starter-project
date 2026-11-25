@@ -102,8 +102,7 @@ New Scala files in `game/` and `test/` are picked up by the globs in
   GameObject engine, load in a scene (`AsyncScene.preload`, or
   `context.whenLoaded`), in `configure`, or in a `lazy val`.
 - The `TextOverlay` font has only `A-Z`, `0-9`, space, and `- _ : . [ ] /`.
-  Anything else, lowercase included, is drawn as a `?`: write overlay text in
-  uppercase.
+  Lowercase letters are drawn in uppercase, and anything else as a `?`.
 - Use SGL's APIs (`Input`, `Random` from `DefaultRandomProvider`, the
   `Loader`s) rather than JVM-only libraries: the same code must compile for
   Scala.js and Scala Native.
@@ -142,8 +141,10 @@ final case class CoinSprite(asset: sgl.assets.DrawableAsset)
 // in configure:  .setGlobal(CoinSprite(Assets.drawable.coin))
 
 object PlayScene extends AsyncScene[Texture2D] {
-  override def preload(context: GameContext)(using Scope): sgl.util.Loader[Texture2D] =
-    context.engine.loadDrawableTexture(context.global[CoinSprite].asset)
+  override def preload(context: GameContext)(using Scope): sgl.util.Loader[Texture2D] = {
+    val renderer = context.engine.renderer
+    renderer.whenReady(renderer.loadTexture2D(context.global[CoinSprite].asset))
+  }
 
   override def load(context: GameContext, coin: Texture2D)(using Scope): Unit = {
     // ... .attach(new SpriteRenderer(_, SpriteVisual.Texture(coin), 20f, 20f))
