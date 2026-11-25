@@ -5,7 +5,7 @@ module(name = "sgl_starter")
 bazel_dep(name = "sgl.bzl", version = "0.0.0", repo_name = "sgl")
 git_override(
     module_name = "sgl.bzl",
-    commit = "cfaf1e9c7c18c1d893a35b80ab27f104a15bf7f2",
+    commit = "f99468c38255f5d8afc8f2ec8834810342337a8f",
     remote = "https://github.com/regb/scala-game-library.git",
 )
 

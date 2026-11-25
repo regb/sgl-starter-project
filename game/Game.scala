@@ -5,7 +5,7 @@ import sgl.engine.gameobject._
 import sgl.engine.gameobject.extras._
 import sgl.engine.gameobject.render2d._
 import sgl.engine.gameobject.spatial2d._
-import sgl.math.Vec2
+import sgl.geometry.Vec2
 import sgl.util.DefaultRandomProvider
 
 /** Coin Dash: move the player with the arrow keys and collect the coins.

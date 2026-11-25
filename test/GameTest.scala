@@ -7,7 +7,7 @@ import sgl.{CapturedFrame, DesktopSystemProvider, Input}
 import sgl.desktop.DesktopFrameIO
 import sgl.engine.gameobject._
 import sgl.headless.opengl.HeadlessOpenGLApp
-import sgl.math.Vec2
+import sgl.geometry.Vec2
 import sgl.util.NoLoggingProvider
 
 /** Runs the real game on the headless OpenGL backend: no window, no GPU.
